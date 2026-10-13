@@ -1,0 +1,160 @@
+/* DIGITAL QUILT — TIDAL GEOMETRY
+   Each square is a real HTML div, arranged with CSS Grid.
+   Pattern classes make reusable geometric quilt patches. */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; width: 100%; min-height: 100%; }
+
+body { background: #172936; }
+
+.quilt {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: clamp(3px, 0.42vw, 7px);
+  padding: clamp(8px, 1.1vw, 18px);
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #172936;
+}
+
+.tile {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+  color: var(--fg);
+  transition: filter 250ms ease;
+}
+.tile:hover { filter: brightness(1.13); }
+.tile::before, .tile::after {
+  content: "";
+  position: absolute;
+  display: block;
+}
+
+/* Color combinations — all artwork is drawn with CSS. */
+.cream { --bg: #f4e5c9; --fg: #263f51; }
+.coral { --bg: #cc6952; --fg: #f9e8cb; }
+.night { --bg: #294258; --fg: #efc36e; }
+.mint  { --bg: #89b3a9; --fg: #263f51; }
+.gold  { --bg: #eebc68; --fg: #b85e46; }
+.pink  { --bg: #e9a894; --fg: #294258; }
+.olive { --bg: #9dab7b; --fg: #f7e7c8; }
+.blue  { --bg: #648e9e; --fg: #f7e7c8; }
+
+/* 1: SUN / circle inside a circle */
+.sun::before {
+  inset: 14%; border-radius: 50%; background: var(--fg);
+}
+.sun::after {
+  width: 27%; height: 27%; left: 36.5%; top: 36.5%;
+  border-radius: 50%; background: var(--bg);
+}
+
+/* 2: ARCH / doorway shape */
+.arch::before {
+  width: 70%; height: 94%; left: 15%; bottom: -1%;
+  border-radius: 50% 50% 0 0; background: var(--fg);
+}
+.arch::after {
+  width: 34%; height: 54%; left: 33%; bottom: -1%;
+  border-radius: 50% 50% 0 0; background: var(--bg);
+}
+
+/* 3: QUARTER / rounded corner with an inset corner */
+.quarter::before {
+  width: 100%; height: 100%; right: 0; bottom: 0;
+  border-radius: 100% 0 0 0; background: var(--fg);
+}
+.quarter::after {
+  width: 48%; height: 48%; right: 0; bottom: 0;
+  border-radius: 100% 0 0 0; background: var(--bg);
+}
+
+/* 4: DIAGONAL / bold two-tone triangle */
+.diagonal::before {
+  inset: 0; background: var(--fg);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.diagonal::after {
+  width: 29%; height: 29%; left: 8%; bottom: 8%;
+  border-radius: 50%; background: var(--bg);
+}
+
+/* 5: ORBIT / offset celestial ring */
+.orbit::before {
+  inset: 17%; border-radius: 50%;
+  border: clamp(7px, 1.7vw, 26px) solid var(--fg);
+}
+.orbit::after {
+  width: 25%; height: 25%; right: 8%; top: 8%;
+  border-radius: 50%; background: var(--fg);
+}
+
+/* 6: STRIPES / parallel woven lines */
+.stripes {
+  background: repeating-linear-gradient(135deg,
+    var(--bg) 0%, var(--bg) 11%,
+    var(--fg) 11%, var(--fg) 20%,
+    var(--bg) 20%, var(--bg) 31%);
+}
+
+/* 7: HOURGLASS / opposing triangles */
+.hourglass::before {
+  inset: 0; background: var(--fg);
+  clip-path: polygon(0 0, 100% 0, 50% 50%, 100% 100%, 0 100%, 50% 50%);
+}
+.hourglass::after {
+  width: 17%; height: 17%; left: 41.5%; top: 41.5%;
+  border-radius: 50%; background: var(--bg);
+}
+
+/* 8: PETALS / two overlapping leaves */
+.petals::before, .petals::after {
+  width: 65%; height: 65%; background: var(--fg);
+  border-radius: 100% 0 100% 0;
+}
+.petals::before { left: 3%; top: 4%; transform: rotate(6deg); }
+.petals::after { right: 3%; bottom: 4%; transform: rotate(186deg); }
+
+/* 9: NEST / two squares frame a small square */
+.nest::before {
+  inset: 13%; background: var(--fg);
+}
+.nest::after {
+  inset: 30%; background: var(--bg);
+  box-shadow: 0 0 0 clamp(2px, .45vw, 7px) var(--fg);
+}
+
+/* 10: PINWHEEL / four rotating color sectors */
+.pinwheel {
+  background: conic-gradient(from 45deg,
+    var(--fg) 0 25%, var(--bg) 25% 50%,
+    var(--fg) 50% 75%, var(--bg) 75% 100%);
+}
+.pinwheel::before {
+  width: 25%; height: 25%; left: 37.5%; top: 37.5%;
+  background: var(--bg); border-radius: 50%;
+}
+
+/* A slightly taller grid gives mobile visitors the same full-screen quilt. */
+@media (max-width: 640px) {
+  .quilt {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+    gap: 3px;
+    padding: 6px;
+  }
+  .orbit::before { border-width: 6px; }
+  .nest::after { box-shadow: 0 0 0 3px var(--fg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; }
+}
