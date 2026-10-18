@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Drift | Screensaver</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .screen {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background-color: #fff9f2;
+      transition: background-color 1.5s ease;
+      outline: none;
+    }
+
+    .title {
+      position: absolute;
+      top: 42px;
+      left: 48px;
+      z-index: 2;
+      color: #363345;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: 4px;
+    }
+
+    p {
+      margin: 0;
+      color: #777486;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+    }
+
+    .circle {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background-color: var(--color);
+      opacity: 0.85;
+      box-shadow: 0 0 0 rgba(80, 70, 120, 0);
+      transition: box-shadow 1s ease, opacity 1s ease;
+    }
+
+    .one   { --x: 15%; --y: 29%; --size: 142px; --color: #ffa891; --speed: 6s; }
+    .two   { --x: 44%; --y: 17%; --size: 98px;  --color: #adc5f6; --speed: 8s; }
+    .three { --x: 72%; --y: 35%; --size: 158px; --color: #9fdec7; --speed: 7s; }
+    .four  { --x: 30%; --y: 67%; --size: 118px; --color: #f7cf85; --speed: 9s; }
+    .five  { --x: 57%; --y: 72%; --size: 130px; --color: #cbb3ec; --speed: 6.5s; }
+
+    /* Pseudo-state: hovering or focusing starts the screensaver. */
+    .screen:hover,
+    .screen:focus {
+      background-color: #f3f0ff;
+    }
+
+    .screen:hover .circle,
+    .screen:focus .circle {
+      opacity: 0.95;
+      box-shadow: 0 18px 34px rgba(80, 70, 120, 0.13);
+      animation: drift var(--speed) ease-in-out infinite alternate;
+    }
+
+    /* The circles keep moving as long as the screen is active. */
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(24px, -34px) scale(1.08); }
+      100% { transform: translate(-30px, 21px) scale(0.95); }
+    }
+
+    @media (max-width: 650px) {
+      .title { top: 30px; left: 24px; }
+      h1 { font-size: 18px; letter-spacing: 3px; }
+      p { font-size: 12px; max-width: 245px; line-height: 1.4; }
+      .circle { width: calc(var(--size) * 0.7); height: calc(var(--size) * 0.7); }
+      .one   { --x: 13%; --y: 29%; }
+      .two   { --x: 65%; --y: 23%; }
+      .three { --x: 53%; --y: 48%; }
+      .four  { --x: 16%; --y: 68%; }
+      .five  { --x: 61%; --y: 82%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="screen" tabindex="0" aria-label="Color Drift animated screensaver. Hover or focus to start animation.">
+    <header class="title">
+      <h1>COLOR DRIFT</h1>
+      <p>Move your mouse over the page to begin.</p>
+    </header>
+    <div class="circle one" aria-hidden="true"></div>
+    <div class="circle two" aria-hidden="true"></div>
+    <div class="circle three" aria-hidden="true"></div>
+    <div class="circle four" aria-hidden="true"></div>
+    <div class="circle five" aria-hidden="true"></div>
+  </main>
+</body>
+</html>
